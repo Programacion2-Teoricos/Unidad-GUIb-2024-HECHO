@@ -1,4 +1,4 @@
-# Unidad5b Proyecto para realizar el teórico de la Unidad5 GUIb
+# Unidad5b Proyecto para realizar el teórico de la Unidad5 GUIb HECHO
 Realizado en Eclipse 2022 con java 1.8
 
 - El paquete **logica** tiene las clase Alumno, Becado y Fecha
