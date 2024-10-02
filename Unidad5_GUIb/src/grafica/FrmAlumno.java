@@ -1,5 +1,5 @@
 package grafica;
-//ver aquí como usar JTatoo https://www.youtube.com/watch?v=npatkpiF18I
+
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
 
@@ -12,7 +12,7 @@ import javax.swing.JTextField;
 import javax.swing.JButton;
 import javax.swing.border.TitledBorder;
 
-import logica.Alumno;
+import logica.*;
 
 import java.awt.Color;
 import javax.swing.UIManager;
@@ -31,6 +31,8 @@ public class FrmAlumno extends JFrame {
 	private JButton btnCalcular;
 	private JButton btnLimpiar;
 	private JButton btnSalir;
+	private JTextField txtSaldoCuota;
+	private JCheckBox chkEsBecado;
 
 	public FrmAlumno() {
 		setTitle("Alumnos");
@@ -40,7 +42,7 @@ public class FrmAlumno extends JFrame {
 
 	private void iniciarComponentes() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 495, 174);
+		setBounds(100, 100, 495, 227);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -83,8 +85,9 @@ public class FrmAlumno extends JFrame {
 
 		JPanel panel2 = new JPanel();
 		panel2.setBackground(Color.LIGHT_GRAY);
-		panel2.setBorder(new TitledBorder(null, "Calculo de la cuota neta", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		panel2.setBounds(256, 11, 213, 58);
+		panel2.setBorder(
+				new TitledBorder(null, "Calculo de la cuota neta", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		panel2.setBounds(256, 115, 213, 58);
 		contentPane.add(panel2);
 		panel2.setLayout(null);
 
@@ -95,29 +98,68 @@ public class FrmAlumno extends JFrame {
 		txtCuotaNeta.setColumns(10);
 
 		btnCalcular = new JButton("Calcular");
+		btnCalcular.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
 		btnCalcular.setBounds(10, 24, 89, 23);
 		panel2.add(btnCalcular);
 
 		btnLimpiar = new JButton("Limpiar");
-		btnLimpiar.setBounds(256, 98, 89, 23);
+		btnLimpiar.setBounds(10, 150, 89, 23);
 		contentPane.add(btnLimpiar);
 
 		btnSalir = new JButton("Salir");
-		btnSalir.setBounds(380, 98, 89, 23);
+		btnSalir.setBounds(123, 150, 89, 23);
 		contentPane.add(btnSalir);
+
+		JPanel panel3 = new JPanel();
+		panel3.setBackground(new Color(192, 192, 192));
+		panel3.setBorder(new TitledBorder(null, "Datos de becado", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		panel3.setBounds(259, 11, 210, 93);
+		contentPane.add(panel3);
+		panel3.setLayout(null);
+
+		chkEsBecado = new JCheckBox("Es becado?");
+		chkEsBecado.setBounds(6, 23, 97, 23);
+		panel3.add(chkEsBecado);
+
+		JLabel lblSaldoCuota = new JLabel("Saldo Cuota:");
+		lblSaldoCuota.setBounds(6, 53, 97, 14);
+		panel3.add(lblSaldoCuota);
+
+		txtSaldoCuota = new JTextField();
+		txtSaldoCuota.setEnabled(false);
+		txtSaldoCuota.setBounds(113, 51, 86, 20);
+		panel3.add(txtSaldoCuota);
+		txtSaldoCuota.setColumns(10);
 	}
 
 	private void iniciarManejadoresEventos() {
-
+		chkEsBecado.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                // Habilitar o deshabilitar el JTextField según el estado del JCheckBox
+            	txtSaldoCuota.setEnabled(chkEsBecado.isSelected());
+            }
+        });
 		btnCalcular.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Alumno a;
+				Becado b;
 				try {
 					String apellido = txtApellido.getText();
 					int grupo = Integer.valueOf(txtGrupo.getText());
 					double cuotaBase = Double.valueOf(txtCuotaBase.getText());
-					a = new Alumno(apellido, grupo, cuotaBase);
-					txtCuotaNeta.setText(String.valueOf(a.cuotaNeta()));
+					if (chkEsBecado.isSelected()) {
+						
+						double saldoCuota = Double.valueOf(txtSaldoCuota.getText());
+						b = new Becado(saldoCuota, apellido, grupo, cuotaBase);
+						txtCuotaNeta.setText(String.valueOf(b.cuotaNeta()));
+
+					} else {
+						a = new Alumno(apellido, grupo, cuotaBase);
+						txtCuotaNeta.setText(String.valueOf(a.cuotaNeta()));
+					}
 				} catch (Exception ex) {
 					txtCuotaNeta.setText("Error");
 					JOptionPane.showMessageDialog(null, ex);
