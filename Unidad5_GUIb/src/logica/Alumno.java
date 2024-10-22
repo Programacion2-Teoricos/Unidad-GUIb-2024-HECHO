@@ -44,9 +44,11 @@ public class Alumno {
 
 	@Override
 	public String toString() {
-		return "apellido= " + apellido + 
-				", grupo= " + grupo + 
-				", cuotaBase= " + cuotaBase;
+		return "\n"+apellido+
+				"\t"+grupo+
+				"\t"+cuotaBase+
+				"\t"+cuotaNeta()+
+				"\t"+nacimiento.toString();
 	}
 	
 	public double cuotaNeta() {
