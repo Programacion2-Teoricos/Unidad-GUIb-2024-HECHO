@@ -20,9 +20,7 @@ public class Becado extends Alumno {
 
 	@Override
 	public String toString() {
-		return "Becado [saldoBeca=" + saldoBeca + ", getSaldoBeca()=" + getSaldoBeca() + ", getApellido()="
-				+ getApellido() + ", getGrupo()=" + getGrupo() + ", getCuotaBase()=" + getCuotaBase() + ", cuotaNeta()="
-				+ cuotaNeta() + ", toString()=" + super.toString()+"]";
+		return super.toString() + "\t" + saldoBeca;
 	}
 
 	//si el saldoBeca es <200 le corresponde boletoGratis
